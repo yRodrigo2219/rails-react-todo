@@ -1,17 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   before_action :decode_password, only: :create
   before_action :authorize_request, except: :create
-  before_action :find_user, except: %i[create index]
-
-  # GET /users
-  def index
-    @users = User.all
-    render json: @users.to_json(except: [:password_digest]), status: :ok
-  end
+  before_action :find_user, except: :create
   
   # GET /users/{username}
   def show
-    render json: @user.to_json(except: [:password_digest]), status: :ok
+    render json: @user.to_json(:except => [:password_digest], :include => :todos), status: :ok
   end
 
   # POST /users
@@ -43,7 +37,7 @@ class Api::V1::UsersController < ApplicationController
   def find_user
     @user = User.find_by_username!(params[:_username])
     rescue ActiveRecord::RecordNotFound
-      render json: { errors: 'Usuário não encontrado' }, status: :not_found
+      render json: { errors: 'user not found' }, status: :not_found
   end
 
   def user_params
