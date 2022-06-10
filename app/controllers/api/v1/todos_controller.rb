@@ -32,12 +32,6 @@ class Api::V1::TodosController < ApplicationController
 
   private
 
-  def check_ownership
-    if @user.id != @current_user.id
-      render json: { errors: "unauthorized" }, status: :unauthorized
-    end
-  end
-
   def check_if_is_done
     if @todo.is_done
       render json: { errors: "cannot update done tasks" }, status: :unprocessable_entity

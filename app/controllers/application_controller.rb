@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
 
   def not_found
-    render json: { error: 'not_found' }
+    render json: { error: 'route not_found' }
   end
 
   def authorize_request
@@ -17,8 +17,15 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def check_ownership
+    if @user.id != @current_user.id
+      render json: { errors: "unauthorized" }, status: :unauthorized
+    end
+  end
+
   def decode_password
     begin
+      puts params[:password]
       params[:password] = Rsa.decode_msg(params[:password])
     rescue => exception
       render json: { error: "unable to decode password" }, status: :unprocessable_entity

@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   end
 
   # qualquer outra rota
-  get '/*a', to: 'application#not_found'
+  match '/*a', to: 'application#not_found', via: [:get, :post, :put, :delete, :options, :patch]
 end
