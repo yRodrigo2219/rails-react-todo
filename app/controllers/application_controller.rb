@@ -16,4 +16,12 @@ class ApplicationController < ActionController::API
       render json: { errors: e.message }, status: :unauthorized
     end
   end
+
+  def decode_password
+    begin
+      params[:password] = Rsa.decode_msg(params[:password])
+    rescue => exception
+      render json: { error: "unable to decode password" }, status: :unprocessable_entity
+    end
+  end
 end

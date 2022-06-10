@@ -6,19 +6,19 @@ class Api::V1::UsersController < ApplicationController
   # GET /users
   def index
     @users = User.all
-    render json: @users, status: :ok
+    render json: @users.to_json(except: [:password_digest]), status: :ok
   end
   
   # GET /users/{username}
   def show
-    render json: @user, status: :ok
+    render json: @user.to_json(except: [:password_digest]), status: :ok
   end
 
   # POST /users
   def create
     @user = User.new(user_params)
     if @user.save
-      render json: @user, status: :created
+      render json: @user.to_json(except: [:password_digest]), status: :created
     else
       render json: { errors: @user.errors.full_messages },
              status: :unprocessable_entity
@@ -50,13 +50,5 @@ class Api::V1::UsersController < ApplicationController
     params.permit(
       :name, :username, :email, :password
     )
-  end
-
-  def decode_password
-    begin
-      params[:password] = RSA.decode_msg(params[:password])
-    rescue => exception
-      render json: { error: "unable to decode password" }, status: :unprocessable_entity
-    end
   end
 end

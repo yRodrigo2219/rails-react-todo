@@ -1,6 +1,6 @@
 require "base64"
 
-class RSA
+class Rsa
   PRIVATE_KEY = OpenSSL::PKey::RSA.new 2048
 
   def self.public_key_str
