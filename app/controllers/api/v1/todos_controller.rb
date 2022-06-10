@@ -1,9 +1,16 @@
 class Api::V1::TodosController < ApplicationController
   before_action :authorize_request
   before_action :find_user
-  before_action :check_ownership
-  before_action :find_todo, except: :create
+  before_action :check_ownership, except: :index
+  before_action :find_todo, except: [:create, :index]
   before_action :check_if_is_done, only: :update
+
+  # GET /todos
+  def index
+    is_owner = @current_user.id == @user.id
+    filtered_todos = FilterTodos.filter(@user, params, is_owner)
+    render json: filtered_todos, status: :ok
+  end
 
   # POST /todos
   def create
@@ -33,8 +40,8 @@ class Api::V1::TodosController < ApplicationController
   private
 
   def check_if_is_done
-    if @todo.is_done
-      render json: { errors: "cannot update done tasks" }, status: :unprocessable_entity
+    if @todo.is_done && (params[:is_done].nil? || ActiveModel::Type::Boolean.new.cast(params[:is_done]))
+      render json: { errors: "cannot update done tasks, unmark to edit" }, status: :unprocessable_entity
     end
   end
 

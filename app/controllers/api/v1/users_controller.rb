@@ -7,9 +7,9 @@ class Api::V1::UsersController < ApplicationController
   # GET /users/{username}
   def show
     if @user.id == @current_user.id
-      render json: @user.as_json( :include => [:public_todos, :private_todos] ), status: :ok
+      render json: @user, status: :ok
     else
-      render json: @user.as_json( :except => :email, :include => :public_todos ), status: :ok
+      render json: @user.as_json( :except => :email ), status: :ok
     end
   end
 

@@ -25,7 +25,6 @@ class ApplicationController < ActionController::API
 
   def decode_password
     begin
-      puts params[:password]
       params[:password] = Rsa.decode_msg(params[:password])
     rescue => exception
       render json: { error: "unable to decode password" }, status: :unprocessable_entity

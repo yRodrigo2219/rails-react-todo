@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
       resources :users, param: :_username, only: [:show, :create, :update, :destroy] do
-        resources :todos, only: [:create, :update, :destroy]
+        resources :todos, only: [:index ,:create, :update, :destroy]
       end
     end
   end
@@ -13,5 +13,5 @@ Rails.application.routes.draw do
   end
 
   # qualquer outra rota
-  match '/*a', to: 'application#not_found', via: [:get, :post, :put, :delete, :options, :patch]
+  match '/*a', to: 'application#not_found', via: :all
 end
