@@ -1,8 +1,13 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :decode_password, except: :show
+  before_action :decode_password, only: [:create, :destroy]
   before_action :authorize_request, except: :create
-  before_action :find_user, except: :create
+  before_action :find_user, except: [:create, :index]
   before_action :check_ownership, only: [:update, :destroy]
+
+  # GET /users
+  def index
+    render json: User.where("username like ?", "%#{params[:search]}%").limit(5).as_json( :only => :username ), status: :ok
+  end
   
   # GET /users/{username}
   def show
@@ -17,6 +22,7 @@ class Api::V1::UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      DefaultTodos.create(@user)
       render json: @user, status: :created
     else
       render json: { errors: @user.errors.full_messages },
@@ -26,13 +32,9 @@ class Api::V1::UsersController < ApplicationController
 
   # PUT /users/{username}
   def update
-    if @user&.authenticate(params[:password])
-      unless @user.update(user_params)
-        render json: { errors: @user.errors.full_messages },
-              status: :unprocessable_entity
-      end
-    else
-      render json: { error: 'unauthorized' }, status: :unauthorized
+    unless @user.update(user_params.except(:username))
+      render json: { errors: @user.errors.full_messages },
+            status: :unprocessable_entity
     end
   end
 

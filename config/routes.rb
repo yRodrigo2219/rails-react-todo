@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace 'api' do
     namespace 'v1' do
-      resources :users, param: :_username, only: [:show, :create, :update, :destroy] do
+      resources :users, param: :_username, only: [:index, :show, :create, :update, :destroy] do
         resources :todos, only: [:index ,:create, :update, :destroy]
       end
     end

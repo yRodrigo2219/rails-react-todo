@@ -9,6 +9,7 @@
 ### Comandos
  -  $ `bundle install`
  -  $ `rake db:migrate`
+ -  $ `rake db:seed`
  -  $ `rails s`
 
 ## Tabela de Rotas
@@ -17,6 +18,7 @@
 |-------------------------------------	|--------	|----------------------------------------------------------	|
 | /auth/login                         	| POST   	| Gera token de autenticação                               	|
 | /auth/rsa-key                       	| GET    	| Retorna a Public-Key RSA para criptografar senha         	|
+| /api/v1/users                       	| GET   	| Retorna auto-complete dos usernames (?search=)           	|
 | /api/v1/users                       	| POST   	| Cria o usuário                                           	|
 | /api/v1/users/{username}            	| GET    	| Retorna usuário em especifico                           	|
 | /api/v1/users/{username}            	| PUT    	| Altera informações do usuário                            	|
@@ -35,6 +37,6 @@
 - [x] Permitir marcar uma tarefa como concluída
 - [x] Poder editar uma tarefa
 - [x] Uma tarefa concluída não pode ser editada, apenas visualizada (precisa ser desmarcada para poder ser editada)
-- [ ] Povoar o banco com uma lista default de tarefas (usar Faker)
+- [x] Povoar o banco com uma lista default de tarefas (usando Faker no seed)
 - [x] Criar uma autenticação básica para o sistema (JWT)
 - [x] RSA para cryptografar a passagem da senha

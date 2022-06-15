@@ -3,7 +3,7 @@ class FilterTodos
     if is_owner && params[:visibility] == "private"
       filtered_todos = user.private_todos
     elsif params[:visibility] == "private" # sem permissão
-      filtered_todos = []
+      filtered_todos = user.todos.none
     elsif params[:visibility] == "public" || !is_owner
       filtered_todos = user.public_todos
     else # dono e não passou a propriedade de visibilidade
