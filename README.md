@@ -12,6 +12,9 @@
  -  $ `rake db:seed`
  -  $ `rails s`
 
+### Comando de teste
+ - $ `bundle exec rspec`
+
 ## Tabela de Rotas
 
 | Endpoint                            	| Método 	| Descrição                                                	|
@@ -39,4 +42,5 @@
 - [x] Uma tarefa concluída não pode ser editada, apenas visualizada (precisa ser desmarcada para poder ser editada)
 - [x] Povoar o banco com uma lista default de tarefas (usando Faker no seed)
 - [x] Criar uma autenticação básica para o sistema (JWT)
+- [x] Testes (usando Rspec + Faker + FactoryBot + DatabaseCleaner)
 - [x] RSA para cryptografar a passagem da senha

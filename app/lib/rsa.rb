@@ -11,4 +11,8 @@ class Rsa
     str = Base64.decode64(msg)
     PRIVATE_KEY.private_decrypt(str)
   end
+
+  def self.encode_msg(msg)
+    Base64.encode64(PRIVATE_KEY.public_encrypt(msg))
+  end
 end

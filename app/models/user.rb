@@ -1,9 +1,9 @@
 class User < ApplicationRecord
   has_secure_password
-  has_many :todos
+  has_many :todos, dependent: :delete_all
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :username, presence: true, uniqueness: true, length: { in: 3..20 }
-  validates :name, presence: true, length: { in: 3..50 }
+  validates :username, presence: true, uniqueness: true, length: { in: 2..20 }
+  validates :name, presence: true, length: { in: 2..50 }
   validates :password, length: { in: 6..20 }, if: -> { new_record? || !password.nil? }
 
   def as_json(options={})

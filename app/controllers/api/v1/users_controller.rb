@@ -42,6 +42,8 @@ class Api::V1::UsersController < ApplicationController
   def destroy
     if @user&.authenticate(params[:password])
       @user.destroy
+    else
+      render json: { errors: "invalid password" }, status: :unprocessable_entity
     end
   end
 

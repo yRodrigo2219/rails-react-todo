@@ -12,8 +12,8 @@ puts "\nCriando usuários/to-do's com Faker..."
 100.times {
   begin
     new_user = User.create!(name: Faker::Name.first_name) do |user|
-      user.email = Faker::Internet.free_email(name: user.name)
-      user.username = Faker::Internet.username(specifier: user.name, separators: "")
+      user.username = Faker::Internet.username(specifier: user.name, separators: "") + "#{Faker::Number.number(digits: 4)}"
+      user.email = Faker::Internet.free_email(name: user.username)
       user.password = Faker::Internet.password(min_length: 6, max_length: 15)
     end
   
